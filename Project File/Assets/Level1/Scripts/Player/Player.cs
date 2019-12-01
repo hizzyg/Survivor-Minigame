@@ -4,6 +4,14 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public float pc_speed = 6f;        // The movementspeed
+    Vector3 pc_movement;               // The vector of the direction which gets stored
+    //Animator pc_anim;                // Reference to the animator component
+    Rigidbody pc_rb;                   // Reference to the Rigidbody component
+    int pc_floorMask;                  // A layer mask of the Floor layer
+    float pc_camRayLength = 100f;      // The length of the ray from the camera
+    public bool useController;         // use Controller
+    public GameObject CamController;   // check Controller on off
     public void Awake()
     {
         ///                         |
@@ -59,35 +67,27 @@ public class Player : MonoBehaviour
         ///                         |
         TimeToShootwMouse();
         TimeToShootwController();
-        /* ----------------------- */
+    }
 
+    public void FixedUpdate()
+    {
         ///                         |
         ///     Player Controller   |
         ///                         |
         // Store the input axes
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-
         // Move the player
         Move(h, v);
         // Turn the player to face the mouse cursor
         Turning();
         // Animate the player
         Animating(h, v);
-        /* ------------------------------------- */
     }
 
 
-
     #region PlayerController
-    public float pc_speed = 6f;        // The movementspeed
-    Vector3 pc_movement;               // The vector of the direction which gets stored
-    //Animator pc_anim;                  // Reference to the animator component
-    Rigidbody pc_rb;                   // Reference to the Rigidbody component
-    int pc_floorMask;                  // A layer mask of the Floor layer
-    float pc_camRayLength = 100f;      // The length of the ray from the camera
-    public bool useController;
-
+   
     void Move(float h, float v)
     {
         // Set the movement vector based on the axis input
@@ -98,35 +98,38 @@ public class Player : MonoBehaviour
         pc_rb.MovePosition(transform.position + pc_movement);
     }
 
+    /// <summary>
+    /// Turning the Controller on/off
+    /// </summary>
     void Turning()
     {
-        #region Turning the Controller on/off
-        // Press the BACK Button BLJAAAAAAD!!
+        #region
+        // Press the BACK Button!!
         if (Input.GetKeyDown(KeyCode.Joystick1Button6))
         {
             if (useController == false)
             {
                 useController = true;
-                Cursor.visible = false;
+                CamController.SetActive(true);
             }
             else
             {
                 useController = false;
-                Cursor.visible = true;
+                CamController.SetActive(false);
             }
         }
-        // Press C BLJAAAAAD!!
+        // Press C!!
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (useController == false)
             {
                 useController = true;
-                Cursor.visible = false;
+                CamController.SetActive(true);
             }
             else
             {
                 useController = false;
-                Cursor.visible = true;
+                CamController.SetActive(false);
             }
         }
 

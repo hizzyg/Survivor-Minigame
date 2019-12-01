@@ -38,16 +38,16 @@ public class IngameESCMenu : MonoBehaviour
             Time.timeScale = 1;
         }
         #endregion
-       // #region Maus
-       // if (canvas.gameObject.activeInHierarchy == false)
-       // {
-       //     Cursor.visible = false;
-       // }
-       // else
-       // {
-       //     Cursor.visible = true;
-       // }
-       // #endregion
+       #region Maus
+       if (canvas.gameObject.activeInHierarchy == false)
+       {
+           Cursor.visible = false;
+       }
+       else
+       {
+           Cursor.visible = true;
+       }
+       #endregion
 
     }
 

@@ -10,10 +10,18 @@ public class StartManager : MonoBehaviour
     }
     public void Introduction()
     {
-        SceneManager.LoadScene("Credits");
+        SceneManager.LoadScene("Introduction");
+    }
+    public void Introduction2()
+    {
+        SceneManager.LoadScene("Introduction2");
     }
     public void Credits()
     {
-        SceneManager.LoadScene("Introduction");
+        SceneManager.LoadScene("Credits");
+    }
+    public void Menu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
