@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
         gunAudio = GetComponent<AudioSource>();
         //gunLight = GetComponentInChildren<Light>();  //GetComponent<Light>();
         gunLine = GetComponentInChildren<LineRenderer>();
-        gunAudio.PlayOneShot(shootSound);                                       // DAS MUSS NOCH GETESTET WERDEN!! WENN SOUND NICHT KLAPPEN SOLL DAS HIER AUSKOMMENTIERT WERDEN!!
         /* --------------------------------------------------------------- */
     }
 
@@ -67,6 +66,10 @@ public class Player : MonoBehaviour
         ///                         |
         TimeToShootwMouse();
         TimeToShootwController();
+        // Turn the player to face the mouse cursor
+        Turning();
+        if (timer > 0.1f)
+            gunParticles.Stop();
     }
 
     public void FixedUpdate()
@@ -79,15 +82,13 @@ public class Player : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         // Move the player
         Move(h, v);
-        // Turn the player to face the mouse cursor
-        Turning();
         // Animate the player
         Animating(h, v);
     }
 
 
     #region PlayerController
-   
+
     void Move(float h, float v)
     {
         // Set the movement vector based on the axis input
@@ -105,7 +106,7 @@ public class Player : MonoBehaviour
     {
         #region
         // Press the BACK Button!!
-        if (Input.GetKeyDown(KeyCode.Joystick1Button6))
+        if (Input.GetKeyUp(KeyCode.Joystick1Button6))
         {
             if (useController == false)
             {
@@ -119,7 +120,7 @@ public class Player : MonoBehaviour
             }
         }
         // Press C!!
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C))
         {
             if (useController == false)
             {
@@ -244,14 +245,13 @@ public class Player : MonoBehaviour
     Ray shootRay;                               // A ray from the gun end forwards
     RaycastHit shootHit;                        // A raycast hit to get info what u hit
     public LayerMask shootableMask;             // a layer mask so u can only hit the shootable layer
-    ParticleSystem gunParticles;
+    public ParticleSystem gunParticles;
     public LineRenderer gunLine; //Brauche ich derzeit nicht(zuständig für den magic stick effekt)
     AudioSource gunAudio;                       // reference to the audio
     //Light gunLight;
     float effectsDisplayTime = 2f;              // The effect Display time
 
     public AudioClip shootSound;                // AudiClip = mehrere Audios in einem "player"
-
     public void TimeToShootwController()
     {
         // Add the time per second
@@ -293,15 +293,12 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // delay per shoot
-
         // Reset the timer
         timer = 0f;
 
         gunAudio.PlayOneShot(shootSound);
 
-        gunParticles.Stop();
         gunParticles.Play();
-
         gunLine.enabled = true;
         gunLine.SetPosition(0, transform.position);
 
